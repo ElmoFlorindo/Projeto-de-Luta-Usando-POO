@@ -12,4 +12,4 @@ const stage = new Stage(
     document.querySelector('#personagem2')
 )
 
-stage.start()
+stage.start() 
