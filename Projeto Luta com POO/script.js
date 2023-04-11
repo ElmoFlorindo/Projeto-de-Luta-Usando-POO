@@ -3,13 +3,17 @@ let knigth_garen = new Knigth("Garen")
 let druid_bardos = new Druid("Bardos")
 let archer_legolas = new Archer("Legolas")
 
+let log = new Log(document.querySelector('.log'))
 
 
 const stage = new Stage(
-    mage_gandalf,
     knigth_garen,
+    mage_gandalf,
     document.querySelector('#personagem1'),
-    document.querySelector('#personagem2')
+    document.querySelector('#personagem2'),
+    log
+
 )
 
-stage.start() 
+
+stage.start()
