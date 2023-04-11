@@ -59,11 +59,12 @@ class Druid extends Character {
 
 
 class Stage {
-    constructor(personagem1, personagem2, personagem1EL, personagem2EL) {
+    constructor(personagem1, personagem2, personagem1EL, personagem2EL,logObject) {
         this.personagem1 = personagem1
         this.personagem2 = personagem2
         this.personagem1EL = personagem1EL
         this.personagem2EL = personagem2EL
+        this.log = logObject
     }
 
     start() {
@@ -75,11 +76,11 @@ class Stage {
 
     update() {
         // personagem1
-        this.personagem1EL.querySelector('.nome').innerHTML = `${this.personagem1.name} - ${this.personagem1.life} HP`
+        this.personagem1EL.querySelector('.nome').innerHTML = `${this.personagem1.name} - ${this.personagem1.life.toFixed(2)} HP`
         let p1PCT = (this.personagem1.life / this.personagem1.maxLife) * 100
         this.personagem1EL.querySelector('.barra').style.width = `${p1PCT}%`
         //personagem2
-        this.personagem2EL.querySelector('.nome').innerHTML = `${this.personagem2.name} - ${this.personagem2.life} HP`
+        this.personagem2EL.querySelector('.nome').innerHTML = `${this.personagem2.name} - ${this.personagem2.life.toFixed(2)} HP`
         let p2PCT = (this.personagem2.life / this.personagem2.maxLife) * 100
         this.personagem2EL.querySelector('.barra').style.width = `${p2PCT}%`
 
@@ -87,7 +88,47 @@ class Stage {
 
 
     fazerAtack(atacando , defendendo){
-        console.log(`${atacando.name} esta atacando  ${defendendo.name} `)
+        
+        if (atacando.life <= 0 || defendendo.life <= 0){
+            this.log.addMensagem("Atacando personagem morto...")
+            return
+        }
+
+        let personagemAtacando = (Math.random()*2).toFixed(2)
+        let personagemDefendendo = (Math.random()*2).toFixed(2)
+        
+        let novoAttaking = atacando.attack * personagemAtacando
+        let novodefense = defendendo.defense * personagemDefendendo
+        
+        if (novoAttaking  > novodefense) {
+            defendendo.life -= novoAttaking
+            this.log.addMensagem(`${atacando.name} causou ${novoAttaking.toFixed(2)} de dano em ${defendendo.name}`)
+        } else{
+            this.log.addMensagem(`${atacando.name} conseguiu defender!`)
+        }
+
         this.update()
+    }
+}
+
+
+class Log {
+    list = []   
+
+    constructor(listEL){
+        this.listEL = listEL
+    }
+
+    addMensagem(msg){
+        this.list.push(msg)
+        this.render()
+    }
+
+    render(){
+        this.listEL.innerHTML = ''
+
+        for(let i in this.list){
+            this.listEL.innerHTML += `<li> ${this.list[i]}</li> `
+        }
     }
 }
