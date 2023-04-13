@@ -90,7 +90,7 @@ class Stage {
     fazerAtack(atacando , defendendo){
         
         if (atacando.life <= 0 || defendendo.life <= 0){
-            this.log.addMensagem("Atacando personagem morto...")
+            this.log.addMensagem("Alguem está mosrto, não pode atacar...")
             return
         }
 
